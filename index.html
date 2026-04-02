@@ -1192,7 +1192,11 @@
         </div>
         <div class="form-group">
           <label>Actual PnL ($)</label>
-          <input type="number" id="f-pnl" placeholder="125.50 or -80.00" step="any" inputmode="decimal">
+          <div style="display:flex;gap:8px;align-items:center;">
+  <button type="button" id="pnl-neg-btn" onclick="setPnlSign('-')" style="font-family:'Space Mono',monospace;font-size:13px;padding:10px 16px;background:rgba(255,179,179,0.12);color:#ffb3b3;border:1px solid rgba(255,179,179,0.3);border-radius:2px;cursor:pointer;letter-spacing:1px;">−</button>
+  <button type="button" id="pnl-pos-btn" onclick="setPnlSign('+')" style="font-family:'Space Mono',monospace;font-size:13px;padding:10px 16px;background:rgba(184,255,219,0.12);color:#b8ffdb;border:1px solid rgba(184,255,219,0.3);border-radius:2px;cursor:pointer;letter-spacing:1px;">+</button>
+  <input type="number" id="f-pnl" placeholder="80.00" step="any" inputmode="decimal" min="0" style="flex:1;">
+</div>
         </div>
         <div class="form-group">
           <label>Setup / Strategy</label>
@@ -1965,6 +1969,13 @@ load(); setDateTime(); renderDashboard();
 window.addEventListener('resize',()=>{
   if(document.getElementById('page-dashboard').classList.contains('active')) drawEquity();
 });
+  function setPnlSign(sign) {
+  const inp = document.getElementById('f-pnl');
+  const val = Math.abs(parseFloat(inp.value) || 0);
+  inp.value = sign === '-' ? (val ? -val : '') : (val || '');
+  document.getElementById('pnl-neg-btn').style.opacity = sign === '-' ? '1' : '0.4';
+  document.getElementById('pnl-pos-btn').style.opacity = sign === '+' ? '1' : '0.4';
+}
 </script>
 </body>
 </html>
